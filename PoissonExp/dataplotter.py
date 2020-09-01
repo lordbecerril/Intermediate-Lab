@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import math
+from math import exp
+from math import factorial
+from math import log
 from statistics import mean
 from statistics import variance
 from statistics import stdev
+from decimal import Decimal
 
 def new_list_creator(x_axis, y_axis):
     new_list = []
@@ -41,11 +44,36 @@ def histogram_w_error_bar(x_axis, y_axis, error, title, y_label,name):
 
     # Save the figure
     plt.tight_layout()
-    plt.savefig(name)
+    plt.savefig(name) # Use plt.show() here
 
+def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average):
+    poisson_pts = []
+
+    for x in range(N):
+        y = (  (average**x)    *    (exp(-1*average))    ) / (Decimal(factorial(x)))
+        y = y * 100
+        poisson_pts.append(y)
+
+    fig = plt.figure() # This line is needed to create a figure
+
+    ax = fig.add_subplot(111)
+
+    ax.set_ylabel(y_label)
+
+    ax.set_title(title)
+
+    ax.bar(x_axis,y_axis) # the .bar() creates the bar graph
+    ax.plot(x_axis, poisson_pts,linestyle='solid',color='green')
+
+    fig.savefig(name) # finally this command, shows the plot
+
+def binned_histogram(N):
+    #sturges_rule
+    bins_k = 1 + 3.322 * log(N)
+    print(int(bins_k))
 
 def main():
-    # Starting graph for Counts per 0.1 min
+    # Starting graph for Counts per 0.1 min #####################################################################
     print("6 second stuff-----------------------------------------------")
     title = 'Counts with voltage set at 900V'
     x_axis = [0,1,2,3,4,5,6,7,8,9,10,11] # here we have what we want on our x axis
@@ -64,8 +92,10 @@ def main():
     print("Standard Deviation is :", standard_dev)
     print(" ")
     histogram_w_error_bar(x_axis, y_axis,standard_dev, title, y_label,"6_second_count_histo_w_error.png")
+    #histogram_w_poisson_dist(x_axis, y_axis, title, y_label,"6_second_count_histo_w_poisson.png",N,average)
+    binned_histogram(N)
 
-    # Starting graph for counts per 1 min
+    # Starting graph for counts per 1 min #####################################################################
     print("1 minute stuff-----------------------------------------------")
     title = 'Counts with voltage set at 900V'
 
@@ -90,7 +120,7 @@ def main():
     print(" ")
     histogram_w_error_bar(x_axis, y_axis,standard_dev, title, y_label,"1_min_count_histo_w_error.png")
 
-    # Starting graph for counts per 10 min
+    # Starting graph for counts per 10 min #####################################################################
     print("10 minute stuff----------------------------------------------")
     title = 'Counts with voltage set at 900V'
 
