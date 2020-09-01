@@ -1,3 +1,4 @@
+# Author: Eric Becerril-Blas
 import matplotlib.pyplot as plt
 import numpy as np
 from math import exp
@@ -6,10 +7,13 @@ from math import log
 from statistics import mean
 from statistics import variance
 from statistics import stdev
-from decimal import Decimal
+import decimal
+from scipy.stats import norm
+
 
 def new_list_creator(x_axis, y_axis):
-    # The following function creates a list where there are each element in x_axis is repeated a y_axis amount of times
+    #
+    # The following function creates a list where there are each element in x_axis is repeated a y_axis amount of times to create a list of N elements where N is the number of observations we took
     new_list = []
     count = 0
     for y in y_axis:
@@ -53,9 +57,11 @@ def histogram_w_error_bar(x_axis, y_axis, error, title, y_label,name, flag):
 
 def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average):
     poisson_pts = []
-
     for x in range(N):
-        y = (  (average**x)    *    (exp(-1*average))    ) / (Decimal(factorial(x)))
+        a = (average**x)
+        b =(exp(-1*average))
+        c = (factorial(x))
+        y = decimal.Decimal((  a    *    b    ) / c )
         y = y * 100
         poisson_pts.append(y)
 
@@ -72,10 +78,28 @@ def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average):
 
     fig.savefig(name) # finally this command, shows the plot
 
-def binned_histogram(N):
+def binned_histogram(N,average, standard_dev, data,name):
     #sturges_rule
     bins_k = 1 + 3.322 * log(N)
-    print(int(bins_k))
+    print("Bins used by sturges_rule is: ", int(bins_k))
+
+    # Fit a normal distribution to the data:
+    mu, std = norm.fit(data)
+
+    # Plot the histogram.
+    plt.hist(data, bins=int(bins_k), density=True, alpha=0.6, color='g')
+
+    # Plot the PDF.
+    xmin, xmax = plt.xlim()
+    x = np.linspace(xmin, xmax, 100)
+    p = norm.pdf(x, mu, std)
+    plt.plot(x, p, 'k', linewidth=2)
+    title = "Fit results: mu = %.2f,  std = %.2f" % (mu, std)
+    plt.title(title)
+
+    plt.savefig(name)
+
+
 
 def main():
     # Starting graph for Counts per 0.1 min #####################################################################
@@ -106,8 +130,10 @@ def main():
     histogram_w_error_bar(x_axis, y_axis,standard_dev, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_error.png", False)
     histogram_w_error_bar(quotients, y_axis,stdev(new_list2), 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_error_div4.png",True)
 
-    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_poisson.png",N,average)
-    binned_histogram(N)
+    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_poisson.png",len(x_axis),average)
+    histogram_w_poisson_dist(quotients, y_axis, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_poisson_div4.png",len(x_axis),mean(new_list2))
+
+    binned_histogram(N,average, standard_dev, new_list,"6_second_count_histo_w_gaussian_bin.png")
 
     # Starting graph for counts per 1 min #####################################################################
     print("1 minute stuff-----------------------------------------------")
@@ -138,6 +164,11 @@ def main():
     histogram_w_error_bar(x_axis, y_axis,standard_dev, title, y_label,"1_min_count_histo_w_error.png",False)
     histogram_w_error_bar(quotients, y_axis,stdev(new_list2), title, y_label,"1_min_count_histo_w_error_div4.png",True)
 
+    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/1 min',"1_min_count_histo_w_poisson.png",len(x_axis),average)
+    histogram_w_poisson_dist(quotients, y_axis, 'Counts with voltage set at 900V', 'counts/1 min',"1_min_count_histo_w_poisson_div4.png",len(x_axis),mean(new_list2))
+
+    binned_histogram(N,average, standard_dev, new_list,"1_min_count_histo_w_gaussian_bin.png")
+
     # Starting graph for counts per 10 min #####################################################################
     print("10 minute stuff----------------------------------------------")
     title = 'Counts with voltage set at 900V'
@@ -166,6 +197,11 @@ def main():
     print(" ")
     histogram_w_error_bar(x_axis, y_axis,standard_dev, title, y_label,"10_min_count_histo_w_error.png",False)
     histogram_w_error_bar(quotients, y_axis,stdev(new_list2), title, y_label,"10_min_count_histo_w_error_div4.png",True)
+
+    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/10 min',"10_min_count_histo_w_poisson.png",len(x_axis),average)
+    histogram_w_poisson_dist(quotients, y_axis, 'Counts with voltage set at 900V', 'counts/10 min',"10_min_count_histo_w_poisson_div4.png",len(x_axis),mean(new_list2))
+    binned_histogram(N,average, standard_dev, new_list,"10_min_count_histo_w_gaussian_bin.png")
+
 
 
 if __name__== "__main__":
