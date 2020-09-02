@@ -36,6 +36,8 @@ def histogram_creator(x_axis, y_axis, title, y_label, name):
     ax.bar(x_axis,y_axis) # the .bar() creates the bar graph
 
     fig.savefig(name) # finally this command, shows the plot
+    plt.clf()
+
 
 def histogram_w_error_bar(x_axis, y_axis, error, title, y_label,name, flag):
     #https://stackoverflow.com/questions/11774822/matplotlib-histogram-with-errorbars
@@ -54,6 +56,7 @@ def histogram_w_error_bar(x_axis, y_axis, error, title, y_label,name, flag):
     plt.tight_layout()
     #plt.show()
     plt.savefig(name) # Use plt.show() here
+    plt.clf()
 
 def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average):
     poisson_pts = []
@@ -77,6 +80,8 @@ def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average):
     ax.plot(x_axis, poisson_pts,linestyle='solid',color='green')
 
     fig.savefig(name) # finally this command, shows the plot
+    plt.clf()
+
 
 def binned_histogram(N,average, standard_dev, data,name):
     #sturges_rule
@@ -87,7 +92,7 @@ def binned_histogram(N,average, standard_dev, data,name):
     mu, std = norm.fit(data)
 
     # Plot the histogram.
-    plt.hist(data, bins=int(bins_k), density=True, alpha=0.6, color='g')
+    plt.hist(data, bins=6, density=True, alpha=0.6, color='g')
 
     # Plot the PDF.
     xmin, xmax = plt.xlim()
@@ -99,6 +104,7 @@ def binned_histogram(N,average, standard_dev, data,name):
 
     plt.savefig(name)
 
+    plt.clf()
 
 
 def main():
@@ -134,6 +140,7 @@ def main():
     histogram_w_poisson_dist(quotients, y_axis, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_poisson_div4.png",len(x_axis),mean(new_list2))
 
     binned_histogram(N,average, standard_dev, new_list,"6_second_count_histo_w_gaussian_bin.png")
+    binned_histogram(N,average, standard_dev, new_list2,"6_second_count_histo_w_gaussian_bin_div4.png")
 
     # Starting graph for counts per 1 min #####################################################################
     print("1 minute stuff-----------------------------------------------")
@@ -168,6 +175,7 @@ def main():
     histogram_w_poisson_dist(quotients, y_axis, 'Counts with voltage set at 900V', 'counts/1 min',"1_min_count_histo_w_poisson_div4.png",len(x_axis),mean(new_list2))
 
     binned_histogram(N,average, standard_dev, new_list,"1_min_count_histo_w_gaussian_bin.png")
+    binned_histogram(N,average, standard_dev, new_list2,"1_min_count_histo_w_gaussian_bin_div4.png")
 
     # Starting graph for counts per 10 min #####################################################################
     print("10 minute stuff----------------------------------------------")
@@ -201,6 +209,7 @@ def main():
     histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/10 min',"10_min_count_histo_w_poisson.png",len(x_axis),average)
     histogram_w_poisson_dist(quotients, y_axis, 'Counts with voltage set at 900V', 'counts/10 min',"10_min_count_histo_w_poisson_div4.png",len(x_axis),mean(new_list2))
     binned_histogram(N,average, standard_dev, new_list,"10_min_count_histo_w_gaussian_bin.png")
+    binned_histogram(N,average, standard_dev, new_list2,"10_min_count_histo_w_gaussian_bin_div4.png")
 
 
 
