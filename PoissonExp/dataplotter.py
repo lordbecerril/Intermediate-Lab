@@ -8,15 +8,19 @@ PURPOSE:
     in the README.md
 ######################################
 '''
+# Libraries used below
 import matplotlib.pyplot as plt
+
 import numpy as np
+
 from math import exp
 from math import factorial
 from math import log
+
 from statistics import mean
 from statistics import variance
 from statistics import stdev
-import decimal
+
 from scipy.stats import norm
 from scipy.stats import chisquare
 
@@ -101,7 +105,6 @@ def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average,tot
         y = (  a    *    b    ) / c
         y = y * tot_counts
         poisson_pts.append(y)
-    print(poisson_pts)
     fig = plt.figure() # This line is needed to create a figure
 
     ax = fig.add_subplot(111)
@@ -160,7 +163,7 @@ def main():
     y_axis = [6,10,38,36,42,25,20,16,4,1,1,1] # Values of our y axis
 
     # The following function creates a basic histogram
-    histogram_creator(x_axis, y_axis, 'Counts with voltage set at 900V', "Number of Times Observed",'counts/0.1 min',"6_second_count_histo.png")
+    histogram_creator(x_axis, y_axis, 'Counts with voltage set at 900V', "Number of Times Observed",'counts/0.1 min',"6_sec_data/6_second_count_histo.png")
 
     new_list = new_list_creator(x_axis, y_axis)
 
@@ -175,11 +178,11 @@ def main():
     print("Variance is :", var)
     print("Standard Deviation is :", standard_dev)
     print(" ")
-    histogram_w_error_bar(x_axis, y_axis,standard_dev, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_error.png", False)
+    histogram_w_error_bar(x_axis, y_axis,standard_dev, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_sec_data/6_second_count_histo_w_error.png", False)
 
-    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_second_count_histo_w_poisson.png",len(x_axis),average,N)
+    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/0.1 min',"6_sec_data/6_second_count_histo_w_poisson.png",len(x_axis),average,N)
 
-    binned_histogram(N,average, standard_dev, new_list,"6_second_count_histo_w_gaussian_bin.png")
+    binned_histogram(N,average, standard_dev, new_list,"6_sec_data/6_second_count_histo_w_gaussian_bin.png")
 
     # Starting graph for counts per 1 min #####################################################################
     print("1 minute stuff-----------------------------------------------")
@@ -193,7 +196,7 @@ def main():
     y_axis = [2,1,1,1,5,4,7,7,7,5,5,7,9,11,12,3,14,6,11,9,7,11,6,3,1,1,1,2]
 
     y_label = 'counts/1 min'
-    histogram_creator(x_axis, y_axis, title, "Number of Times Observed",'counts/1 min' , "1_min_count_histo.png")
+    histogram_creator(x_axis, y_axis, title, "Number of Times Observed",'counts/1 min' , "1_min_data/1_min_count_histo.png")
 
     new_list = new_list_creator(x_axis, y_axis)
     new_list2 = new_list_creator(quotients, y_axis)
@@ -207,11 +210,11 @@ def main():
     print("Variance is :", var)
     print("Standard Deviation is :", standard_dev)
     print(" ")
-    histogram_w_error_bar(x_axis, y_axis,standard_dev, title, y_label,"1_min_count_histo_w_error.png",False)
+    histogram_w_error_bar(x_axis, y_axis,standard_dev, title, y_label,"1_min_data/1_min_count_histo_w_error.png",False)
 
-    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/1 min',"1_min_count_histo_w_poisson.png",len(x_axis),average,N)
+    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/1 min',"1_min_data/1_min_count_histo_w_poisson.png",len(x_axis),average,N)
 
-    binned_histogram(N,average, standard_dev, new_list,"1_min_count_histo_w_gaussian_bin.png")
+    binned_histogram(N,average, standard_dev, new_list,"1_min_data/1_min_count_histo_w_gaussian_bin.png")
 
     # Starting graph for counts per 10 min #####################################################################
     print("10 minute stuff----------------------------------------------")
@@ -225,7 +228,7 @@ def main():
 
     y_axis = y_axis = [1,1,1,1,2,1,2,1,1,2,1,1,4,2,1,2,1,2,2,1,1,1,1,1] # and here we have what we want on our y axis
 
-    histogram_creator(x_axis, y_axis, title, "Number of Times Observed" , "Counts Per 10 min." ,"10_min_count_histo.png")
+    histogram_creator(x_axis, y_axis, title, "Number of Times Observed" , "Counts Per 10 min." ,"10_min_data/10_min_count_histo.png")
 
     new_list = new_list_creator(x_axis, y_axis)
     new_list2 = new_list_creator(quotients, y_axis)
@@ -239,10 +242,10 @@ def main():
     print("Variance is :", var)
     print("Standard Deviation is :", standard_dev)
     print(" ")
-    histogram_w_error_bar(x_axis, y_axis,standard_dev, title, "Number of Times Observed","10_min_count_histo_w_error.png",False)
+    histogram_w_error_bar(x_axis, y_axis,standard_dev, title, "Number of Times Observed","10_min_data/10_min_count_histo_w_error.png",False)
 
-    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/10 min',"10_min_count_histo_w_poisson.png",len(x_axis),average,N)
-    binned_histogram(N,average, standard_dev, new_list,"10_min_count_histo_w_gaussian_bin.png")
+    histogram_w_poisson_dist(x_axis, y_axis, 'Counts with voltage set at 900V', 'counts/10 min',"10_min_data/10_min_count_histo_w_poisson.png",len(x_axis),average,N)
+    binned_histogram(N,average, standard_dev, new_list,"10_min_data/10_min_count_histo_w_gaussian_bin.png")
 
 
 
