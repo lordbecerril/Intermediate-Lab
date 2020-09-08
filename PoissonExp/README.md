@@ -1,6 +1,5 @@
 ### Poisson Statistics of Background Radiation
 all we need is chi square of the gaussian
-It all started with *bang* <br/>
 ![Kewl](https://media.giphy.com/media/YT83GILU8epmAfKk2R/giphy.gif)
 
 ## Data
