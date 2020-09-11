@@ -34,26 +34,27 @@ def histogram(data, x_axis, y, bin):
 
 
     plt.hist(data, bins = bin)
-    #plt.show()
+    plt.show()
     plt.clf()
-
+    # Graphing poisson
     fig, ax = plt.subplots(1, 1)
     mu = statistics.mean(data)
     print("average is ", mu)
     mean, var, skew, kurt = poisson.stats(mu, moments='mvsk')
     ax.plot(data, poisson.pmf(data, mu), 'bo', ms=8, label='poisson pmf')
     ax.vlines(data, 0, poisson.pmf(data, mu), colors='b', lw=5, alpha=0.5)
-    #plt.show()
+    plt.show()
     plt.clf()
 
     poisson_pts = poisson.pmf(data, mu)
     print("Chi Square is ", chisquare(poisson_pts))
     poisson_pts = [i * len(data) for i in poisson_pts]
-    print("Poisson stuff is ", poisson_pts)
+
+    #print("Poisson stuff is ", poisson_pts)
 
     # Graph with errorbars, histo and poisson
-    plt.bar(x_axis,y, yerr = statistics.stdev(data))
-    #plt.hist(data)
+    #plt.bar(x_axis,y, yerr = statistics.stdev(data))
+    plt.hist(data, bins = bin)
     plt.plot(
         data,
         poisson_pts,
@@ -61,12 +62,12 @@ def histogram(data, x_axis, y, bin):
         label='Fit result',
     )
     plt.legend()
-    #plt.show()
+    plt.show()
     plt.clf()
 
     # Fit a normal distribution to the data:
     mu, std = norm.fit(data)
-    plt.hist(data)
+    plt.hist(data, bins = bin)
     xmin, xmax = plt.xlim()
     x = np.linspace(xmin, xmax, 100)
     p = norm.pdf(x, mu, std)
@@ -78,13 +79,14 @@ def histogram(data, x_axis, y, bin):
     title = "Fit results: mu = %.2f,  std = %.2f" % (mu, std)
     plt.title(title)
 
-    #plt.show()
+    plt.show()
+    plt.clf()
     print("Chi Square of the normal distribution is ", chisquare(list))
 
     # Now normal with poisson, error and bar graph
     print(x)
     print(y)
-    plt.bar(x_axis,y, yerr = statistics.stdev(data))
+    plt.hist(data, bins = bin)
     plt.plot(data,poisson_pts,marker='o', linestyle='',label='Fit result')
     plt.plot(x, list, 'k', linewidth=2)
     plt.show()
