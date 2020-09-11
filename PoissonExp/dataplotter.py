@@ -105,6 +105,8 @@ def histogram_w_poisson_dist(x_axis, y_axis, title, y_label, name, N,average,tot
         y = (  a    *    b    ) / c
         y = y * tot_counts
         poisson_pts.append(y)
+
+    print("Poisson stuff is ", poisson_pts)
     fig = plt.figure() # This line is needed to create a figure
 
     ax = fig.add_subplot(111)
