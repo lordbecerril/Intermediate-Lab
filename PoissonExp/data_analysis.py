@@ -27,30 +27,38 @@ from scipy.stats import chisquare
 
 
 def histogram(data, x_axis, y, name):
-    # Create the figure
-    plt.hist(data)
-    #plt.show()
+    # Create the regular raw data figure
+    plt.clf()
+    plt.bar(x_axis, y)
+    plt.xlabel("Count")
+    plt.ylabel("Frequency")
+    plt.savefig(name+"_count_histo.png")
     plt.clf()
 
-    # Graphing poisson
+    # Graphing expected values from the poisson probability mass function
     fig, ax = plt.subplots(1, 1)
-    mu = statistics.mean(data)
-    print("average is ", mu)
+    # Caluclating first moments below
+    mu = statistics.mean(data) # Get the average from all the data
+    print("average is ", mu) # Print it
     mean, var, skew, kurt = poisson.stats(mu, moments='mvsk')
+
     ax.plot(data, poisson.pmf(data, mu), 'bo', ms=8, label='poisson pmf')
     ax.vlines(data, 0, poisson.pmf(data, mu), colors='b', lw=5, alpha=0.5)
+    plt.xlabel("Count")
+    plt.ylabel("Probability")
     plt.savefig(name+"_poisson.png")
     plt.clf()
 
     poisson_pts = poisson.pmf(data, mu)
-    print("Chi Square is ", chisquare(poisson_pts))
+    print("Chi Square is for poisson before multiplication ", chisquare(poisson_pts))
     poisson_pts = [i * len(data) for i in poisson_pts]
+    print("Chi Square is for poisson after multiplication ", chisquare(poisson_pts))
 
 
 
-    print("Poisson stuff is ", poisson_pts)
+    #print("Poisson stuff is ", poisson_pts) # Printing poisson points we see that they match hand calculated numbers
 
-    # Graph with errorbars, histo and poisson
+    # Graph with histogram and poisson fitted values
     #plt.bar(x_axis,y, yerr = statistics.stdev(data))
     plt.hist(data)
     plt.plot(
@@ -60,35 +68,43 @@ def histogram(data, x_axis, y, name):
         label='Fit result',
     )
     plt.legend()
+    plt.xlabel("Count")
+    plt.ylabel("Frequency")
     plt.savefig(name+"_poisson2.png")
     plt.clf()
 
     # Fit a normal distribution to the data:
-    mu, std = norm.fit(data)
-    plt.hist(data)
-    xmin, xmax = plt.xlim()
-    x = np.linspace(xmin, xmax, 100)
+    mu, std = norm.fit(data) #Gets mean and standard_dev with scipy statistics
+    plt.hist(data) # create histogram from our data
+    xmin, xmax = plt.xlim() # Set limits on x axis for gaussian distribution to be over
+    x = np.linspace(xmin, xmax, 100) #Return evenly spaced numbers over a specified interval.
     p = norm.pdf(x, mu, std)
+    print("Chi Square of the normal distribution before multiplication is ", chisquare(p))
+
     list = p
     list = [i * len(data) for i in p]
-    print("Chi Square of the normal distribution is ", chisquare(p))
+    print("Chi Square of the normal distribution after multiplication by len(data) ", chisquare(list))
 
-    print("p is ", list)
+    #print("p is ", list) Output the gaussian distribution numbers
     plt.plot(x, list, 'k', linewidth=2)
     title = "Fit results: mu = %.2f,  std = %.2f" % (mu, std)
     plt.title(title)
+    plt.xlabel("Count")
+    plt.ylabel("Probability")
 
     plt.savefig(name+"_normal.png")
     plt.clf()
 
 
 
-    # Now normal with poisson, error and bar graph
-    print(x)
-    print(y)
+    # Now normal with poisson and bar graph
+    #print(x)
+    #print(y)
     plt.hist(data)
     plt.plot(data,poisson_pts,marker='o', linestyle='',label='Fit result')
     plt.plot(x, list, 'k', linewidth=2)
+    plt.xlabel("Count")
+    plt.ylabel("Frequency")
     plt.savefig(name+"normal_poisson.png")
 
 def voltage_grapher(x,y):
