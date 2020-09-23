@@ -55,16 +55,17 @@ plt.clf()
 
 
 #hydrogen_angles = [15.25, 17.245, 23.837, 31.784, 35.992, 52.492]
-hydrogen_angles = [ 31.784, 35.992, 52.492]
+hydrogen_angles = [ 15.25, 17.245, 23.837, 31.784, 35.992, 52.492]
 
 
-calc_lambda_h = [param[0]*(np.sin(np.radians(theta_m-theta_i))-np.sin(np.radians(theta_i))) for theta_m in hydrogen_angles]
-calc_lambda_h =[1/l for l in calc_lambda_h]
+calc_lambda_h = [d*(np.sin(np.radians(theta_m-theta_i))-np.sin(np.radians(theta_i))) for theta_m in hydrogen_angles]
+#calc_lambda_h =[1/l for l in calc_lambda_h]
 print("Calculated Wavelengths are ", calc_lambda_h)
 
-n_vals = [6, 4, 3]
+n_vals = [6, 4, 3, 6, 4, 3]
+#n_vals = [1/l for l in n_vals]
 
-param, param_cov = curve_fit(r_func, n_vals, calc_lambda_h, p0 = None)
+param, param_cov = curve_fit(r_func, n_vals, calc_lambda_h, p0 = 10000000)
 print("R is", param*10**3)
 
 # Create the plot
@@ -75,3 +76,7 @@ plt.plot(n_vals, r_func(n_vals, param[0]),
 plt.legend(loc='best')
 plt.show()
 plt.clf()
+
+
+z = np.polyfit( calc_lambda_h,n_vals, 1)
+print(z)
