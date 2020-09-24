@@ -3,7 +3,7 @@ import numpy as np
 # curve-fit() function imported from scipy
 from scipy.optimize import curve_fit
 from matplotlib import pyplot as plt
-
+from scipy import stats
 
 # Grating equation
 def grating_func(x, a, b):
@@ -54,19 +54,25 @@ plt.clf()
 
 
 
-#hydrogen_angles = [15.25, 17.245, 23.837, 31.784, 35.992, 52.492]
-hydrogen_angles = [ 15.25, 17.245, 23.837, 31.784, 35.992, 52.492]
+hydrogen_angles = [15.25, 17.245, 23.837, 31.784, 35.992, 52.492]
+#hydrogen_angles = [ 15.25, 17.245, 23.837]
 
 
-calc_lambda_h = [d*(np.sin(np.radians(theta_m-theta_i))-np.sin(np.radians(theta_i))) for theta_m in hydrogen_angles]
-#calc_lambda_h =[1/l for l in calc_lambda_h]
+calc_lambda_h = [( (1/d)*(1/1000)*(1/(10**(-9)))  )*(np.sin(np.radians(theta_m-theta_i))-np.sin(np.radians(theta_i))) for theta_m in hydrogen_angles]
+for i in calc_lambda_h:
+    if calc_lambda_h.index(i) > 2:
+        calc_lambda_h[calc_lambda_h.index(i)] = i/2
+
+#calc_lambda_h= [1/l for l in calc_lambda_h]
+
 print("Calculated Wavelengths are ", calc_lambda_h)
 
 n_vals = [6, 4, 3, 6, 4, 3]
+#n_vals = [6, 4, 3]
 #n_vals = [1/l for l in n_vals]
 
-param, param_cov = curve_fit(r_func, n_vals, calc_lambda_h, p0 = 10000000)
-print("R is", param*10**3)
+param, param_cov = curve_fit(r_func, n_vals, calc_lambda_h, p0 = None)
+print("R using curve_fit is", param)
 
 # Create the plot
 plt.figure(figsize=(6, 4))
@@ -74,9 +80,13 @@ plt.scatter(n_vals, calc_lambda_h, label='Data')
 plt.plot(n_vals, r_func(n_vals, param[0]),
          label='Fitted function')
 plt.legend(loc='best')
-plt.show()
+#plt.show()
 plt.clf()
 
 
-z = np.polyfit( calc_lambda_h,n_vals, 1)
-print(z)
+slope, intercept, r_value, p_value, std_err = stats.linregress(n_vals,calc_lambda_h)
+print("R using linregress is ", ((1/slope)*(10**9)*(-1) ))
+plt.plot(n_vals,calc_lambda_h,  'o', label='original data')
+plt.plot(n_vals, [intercept + slope * n for n in n_vals], 'r', label='fitted line')
+plt.legend()
+plt.show()
