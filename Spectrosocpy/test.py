@@ -68,11 +68,12 @@ for i in calc_lambda_h:
 print("Calculated Wavelengths are ", calc_lambda_h)
 
 n_vals = [6, 4, 3, 6, 4, 3]
+print("N values used are ", n_vals)
 #n_vals = [6, 4, 3]
 #n_vals = [1/l for l in n_vals]
 
 param, param_cov = curve_fit(r_func, n_vals, calc_lambda_h, p0 = None)
-print("R using curve_fit is", param)
+#print("R using curve_fit is", param)
 
 # Create the plot
 plt.figure(figsize=(6, 4))
@@ -86,6 +87,7 @@ plt.clf()
 
 slope, intercept, r_value, p_value, std_err = stats.linregress(n_vals,calc_lambda_h)
 print("R using linregress is ", ((1/slope)*(10**9)*(-1) ))
+print("Standard Error is ", std_err)
 plt.plot(n_vals,calc_lambda_h,  'o', label='original data')
 plt.plot(n_vals, [intercept + slope * n for n in n_vals], 'r', label='fitted line')
 plt.legend()
