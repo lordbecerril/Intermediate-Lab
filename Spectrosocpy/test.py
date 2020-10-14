@@ -50,7 +50,10 @@ plt.scatter(x, y, label='Data')
 plt.plot(x, grating_func(x, param[0], param[1]),
          label='Fitted function')
 plt.legend(loc='best')
-#plt.show()
+plt.xlabel("Averaged Observed Mercury Angles")
+plt.ylabel("Mercury Wavelengths in Air (Å)")
+plt.title("Non-Linear Fit on Mercury Data")
+plt.show()
 plt.clf()
 
 
@@ -86,8 +89,11 @@ plt.figure(figsize=(6, 4))
 plt.scatter(n_vals, calc_lambda_h, label='Data')
 plt.plot(n_vals, r_func(n_vals, param),
          label='Fitted function')
+plt.title("Linear Fit on Calculated Hydrogen Values")
+plt.xlabel("Order Numbers")
+plt.ylabel("(1/λ) Hydrogen Wavelengths")
 plt.legend(loc='best')
-#plt.show()
+plt.show()
 plt.clf()
 
 
@@ -96,8 +102,11 @@ slope, intercept, r_value, p_value, std_err = stats.linregress(n_vals,calc_lambd
 #print("Standard Error is ", std_err)
 plt.plot(n_vals,calc_lambda_h,  'o', label='original data')
 plt.plot(n_vals, [intercept + slope * n for n in n_vals], 'r', label='fitted line')
+plt.title("Linear Fit on Calculated Hydrogen Values")
+plt.xlabel("Order Numbers")
+plt.ylabel("(1/λ) Hydrogen Wavelengths")
 plt.legend()
-#plt.show()
+plt.show()
 
 
 sodium_angles = [36.9, 21.958, 21.492, 20.208, 18.225, 17.633, 16.833, 16.542, 16.1, 16.225, 14.775, 15.75, 15.983, 16.517, 16.85, 17.675, 18.067, 20.092, 21.4, 22.367, 33.233, 34.675, 35.258, 37.492, 39.5, 46.35, 48.65, 66.075, 71.933]
