@@ -9,7 +9,7 @@ res =[]
 for i in range(len(df.index)):
     r = df.iloc[i,0]/df.iloc[i,1]
     res.append(r)
-df['Resistance']=res
+df['Resistance (Ω)']=res
 
 
 # Calculate power below with P = I^2*R
@@ -34,6 +34,7 @@ df['Resistivity'] = resistivity
 #print(df)
 
 # Using RHOt = RHOo[2 + a(T-To)] solve for T and plug in calced resistivites
+# Source https://www.askiitians.com/iit-jee-electric-current/temperature-dependence-of-resistivity/#temperature-dependence-of-resistivity
 temperature = []
 for i in range(len(df.index)):
     T = df.iloc[i,4] / (5.64E-8)
@@ -47,3 +48,8 @@ df['Temperature'] = temperature
 
 
 print(df)
+
+
+f= open("for_omar.txt","w+")
+dummy = "Voltage:" + df['Voltage(V)'].to_string(index=False)
+f.write(dummy)
