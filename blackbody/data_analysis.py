@@ -4,7 +4,7 @@ import numpy as np
 df = pd.read_csv("data.csv") # Read data
 
 
-# Calculate Resistance
+# Calculate Resistance R = V/I
 res =[]
 for i in range(len(df.index)):
     r = df.iloc[i,0]/df.iloc[i,1]
@@ -25,13 +25,13 @@ df['Power'] = power
 
 ratio = 1.68E-9 # The ratio of len over area from R = RHO * (len/Cross sectional Area)
 
+
+# Calculating Resistivities with RHO = R/ratio
 resistivity = []
 for i in range(len(df.index)):
     x = df.iloc[i,2] * ratio
     resistivity.append(x)
-
 df['Resistivity'] = resistivity
-#print(df)
 
 # Using RHOt = RHOo[2 + a(T-To)] solve for T and plug in calced resistivites
 # Source https://www.askiitians.com/iit-jee-electric-current/temperature-dependence-of-resistivity/#temperature-dependence-of-resistivity
@@ -48,7 +48,7 @@ df['Temperature'] = temperature
 
 
 print(df)
-
+df.plot()
 
 f= open("for_omar.txt","w+")
 dummy = "Voltage:" + df['Voltage(V)'].to_string(index=False)
