@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 from scipy import stats
 
 print("In Air")
-
+wavelength = 632
 y = [1,2,3,4,5,6] # Meters
 x = [0.6E-9, 4.4E-9, 7.3E-9, 10.6E-9,13.8E-9,17.6E-9] #rising edges
 
@@ -26,6 +26,14 @@ plt.legend()
 #plt.show()
 plt.savefig("./inair.png")
 plt.clf()
+
+plt.plot(wavelength,slope, 'o')
+plt.errorbar(wavelength,slope, yerr=[std_err], ecolor= 'green')
+plt.axhline(y=2.99E8)
+plt.ylabel("Speed Of Light")
+plt.xlabel("Wavelength")
+plt.show()
+
 
 
 
@@ -147,6 +155,7 @@ time = [15.6E-9, 17.1E-9,22E-9,] # Change for times
 delta_t = []
 for i in range(len(time)):
     V_avg = dist[i] / time[i] #Average Velocity calculation
+    print(V_avg)
     t = (3.17)/(3* V_avg - 2.99E8 - 2.028E8)
     delta_t.append(t)
 
@@ -165,9 +174,9 @@ print("Standard Error is ", std_err)
 #plt.plot(x,y,  'o', label='original data')
 plt.plot(x, [intercept + slope * n for n in x], 'r', label='fitted line')
 plt.errorbar(x,y,yerr=[1.5,2.5,0.9], fmt = 'o')
-plt.title("Linear Fit of Rising Edge in Water")
+plt.title("Change of time in Water to find speed of light in water")
 plt.ylabel("Distance")
 plt.xlabel("Time")
 plt.legend()
-plt.show()
+#plt.show()
 plt.clf()
