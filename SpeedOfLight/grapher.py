@@ -146,37 +146,3 @@ plt.xlabel("Time")
 plt.legend()
 #plt.show()
 plt.clf()
-
-
-##############################################
-dist = [4,5,6] #Change for different distances
-time = [15.6E-9, 17.1E-9,22E-9,] # Change for times
-
-delta_t = []
-for i in range(len(time)):
-    V_avg = dist[i] / time[i] #Average Velocity calculation
-    print(V_avg)
-    t = (3.17)/(3* V_avg - 2.99E8 - 2.028E8)
-    delta_t.append(t)
-
-print(delta_t)
-
-
-y = dist  # Meters
-x = delta_t#rising edges
-
-slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)
-print("Slope is ", slope)
-print("Intercept is ", intercept)
-print("R value is ", r_value)
-print("P value is ", p_value)
-print("Standard Error is ", std_err)
-#plt.plot(x,y,  'o', label='original data')
-plt.plot(x, [intercept + slope * n for n in x], 'r', label='fitted line')
-plt.errorbar(x,y,yerr=[1.5,2.5,0.9], fmt = 'o')
-plt.title("Change of time in Water to find speed of light in water")
-plt.ylabel("Distance")
-plt.xlabel("Time")
-plt.legend()
-#plt.show()
-plt.clf()
