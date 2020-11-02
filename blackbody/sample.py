@@ -8,6 +8,14 @@ from scipy.optimize import curve_fit
 def func(x, a, b,c,d,e,f):
     return a * b * (c**-5) * np.exp((-1*d*e) / (c*f*x))
 
+# this function is for S(λ;T) = r(λ) * ε(λ;T) * λ^-5 * e^(-h*c/λ*kB*T)
+def func2(x, a, b):
+    return a * (656**-5) * np.exp((-1*b*2.99E9) / (656*1.38E-23*x))
+
+def func3(x, a, b,c,d):
+    return a + np.log(b*c*656-5)- ((d*2.99E9)/(656E-5*1.38E-23*x))
+
+
 
 temps = [1525, 1550, 1575, 1600, 1650, 1675, 1700, 1725, 1750, 1775, 1800, 1850, 1875, 1890, 1910, 1925, 1950, 1975, 1990, 2000, 2025, 2050, 2075, 2100, 2110, 2125, 2150, 2160, 2175, 2190, 2200, 2225, 2250, 2275, 2290, 2300, 2310, 2325, 2350, 2375, 2380, 2390, 2400, 2410, 2425, 2445, 2450, 2475, 2490, 2500, 2510, 2525, 2550, 2560, 2575, 2580, 2590, 2600, 2610, 2625, 2650, 2660, 2670, 2690, 2700, 2710, 2720, 2750, 2775]
 temps = np.array(temps)
@@ -31,6 +39,39 @@ plt.scatter(temps, signals)
 plt.plot(temps, func(temps, popt[0],popt[1],popt[2],popt[3],popt[4],popt[5]), label="Fitted Curve", color ='r')
 plt.xlabel('Temperature(K)')
 plt.ylabel('signals(Watts)')
+plt.legend()
+plt.show()
+plt.clf()
+
+
+
+#p0 =[4.30739944e-13,6.626E-34]
+popt, pcov = curve_fit(func, temps, signals, maxfev=1000)
+print(popt)
+print(pcov)
+print('r(λ)*ε(λ;T)=', popt[0])
+print('h=', popt[3])
+plt.scatter(temps, signals)
+plt.plot(temps, func2(temps, popt[0],popt[1]), label="Fitted Curve", color ='r')
+plt.xlabel('Temperature(K)')
+plt.ylabel('signals(Watts)')
+plt.legend()
+plt.show()
+plt.clf()
+
+p0 =[4.30739944e-13,6.626E-34]
+popt, pcov = curve_fit(func3, temps, np.log(signals), maxfev=1000)
+print(popt)
+print(pcov)
+print('constant=', popt[0])
+print('r=', popt[1])
+print('epsilon=', popt[2])
+print('h=', popt[3])
+
+plt.scatter(temps, np.log(signals))
+plt.plot(temps, func3(temps, popt[0],popt[1],popt[2],popt[3]), label="Fitted Curve", color ='r')
+plt.xlabel('Temperature(K)')
+plt.ylabel('ln(Signals) (Watts)')
 plt.legend()
 plt.show()
 plt.clf()

@@ -14,6 +14,14 @@ def blue_mercury(x,a,b):
 def red_mercury(x,a,b,c):
     return a * b * (656E-9**-5) * np.exp((-1*c*2.99E9) / (656E-9*1.38E-23*x))
 
+def red_mercury2(x,a,b):
+    return a * 12.48 * (656E-9**-5) * np.exp((-1*b*2.99E9) / (656E-9*1.38E-23*x))
+
+
+def func3(x, a, b,c,d):
+    return a + np.log(b*c*656-5)- ((d*2.99E9)/(656E-5*1.38E-23*x))
+
+
 
 df = pd.read_csv("lambdaequal656.csv") # Read data
 
@@ -73,7 +81,7 @@ print(power)
 print(len(power))
 power = np.array(power)
 
-
+'''
 p0 =[4.30739944e-13,4.30739944e-13, 435E-9, 6.626E-34, 2.99E8,1.38E-23]
 popt, pcov = curve_fit(func, temps, power, maxfev=1000)
 print(popt)
@@ -92,9 +100,9 @@ plt.ylabel('Power(Watts)')
 plt.legend()
 plt.show()
 plt.clf()
-
+'''
 #Blue Mercury is 435 nm
-p0 =[4.30739944e-13,4.30739944e-13]
+p0 =[4.30739944e-13,12.48,6.626E-34]
 popt, pcov = curve_fit(red_mercury, temps, power, maxfev=1000)
 print(popt)
 print(pcov)
@@ -109,6 +117,23 @@ plt.legend()
 plt.show()
 plt.clf()
 
+
+#Blue Mercury is 435 nm
+p0 =[4.30739944e-13,6.626E-34]
+popt, pcov = curve_fit(func3, temps, np.log(power), maxfev=1000)
+print(popt)
+print(pcov)
+print('constant=', popt[0])
+print('r=', popt[1])
+print('epsilon=', popt[2])
+print('h=', popt[3])
+plt.scatter(temps, np.log(power))
+plt.plot(temps, func3(temps, popt[0],popt[1],popt[2],popt[3]), label="Fitted Curve", color ='r')
+plt.xlabel('Temperature(K)')
+plt.ylabel('Power(Watts)')
+plt.legend()
+plt.show()
+plt.clf()
 
 
 
