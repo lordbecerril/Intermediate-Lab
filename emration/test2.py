@@ -1,3 +1,4 @@
+#Constant accelerating voltage
 import pandas as pd
 import math
 import numpy as np
@@ -8,7 +9,7 @@ from scipy.optimize import curve_fit
 
 N = 130
 
-df = pd.read_csv("1.csv") # Read data
+df = pd.read_csv("3.csv") # Read data
 
 #Getting Current for the Helmholtz Coils V=IR => I=V/R
 cur = []
@@ -70,5 +71,19 @@ for i in range(len(df.index)):
 m,b = np.polyfit(x, y, 1)
 print(m)
 
+slopes = []
+for i in range(len(x)):
+    slopes.append( m*x[i] + b)
+
+plt.xlabel("Current")
+plt.ylabel("1/radius")
+
+error = [1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3]
+for i in range(len(error)):
+    error[i] = 1/error[i]
+
+
+plt.plot(x, slopes)
 plt.scatter(x, y)
+#plt.errorbar(x,y,yerr=error,ls='none')
 plt.show()

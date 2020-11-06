@@ -1,3 +1,4 @@
+# Constant current
 import pandas as pd
 import math
 import numpy as np
@@ -70,5 +71,17 @@ for i in range(len(df.index)):
 m,b = np.polyfit(x, y, 1)
 print(m)
 
+print(len(x))
+
+slopes = []
+for i in range(len(x)):
+    slopes.append( m*x[i] + b)
+
+plt.xlabel("Accelerating Voltage")
+plt.ylabel("Radius Squared")
+error = [1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3]
+
+plt.plot(x, slopes)
 plt.scatter(x, y)
+plt.errorbar(x,y,yerr=np.power(error,2),ls='none')
 plt.show()
