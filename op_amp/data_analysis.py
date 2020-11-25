@@ -10,12 +10,22 @@ from scipy.optimize import curve_fit
 
 df = pd.read_csv("data.csv") # Read data
 
+print("frequency(Hz) is ")
+print(df['frequency(Hz)'].to_numpy())
+print("Vi(V) is ")
+print(df['Vi(V)'].to_numpy())
+print("Vo(V) is ")
+print(df['Vo(V)'].to_numpy())
+print("Phase(s) is ")
+print(df['Phase(s)'].to_numpy())
+
+
+
 g=[]
 for i in range(len(df.index)):
     r = df.iloc[i,2]/df.iloc[i,1]
     g.append(r)
 df['Gain']=g
-
 
 dummy = np.divide(df['Gain'], df['frequency(Hz)'])
 df['Log Gain']= np.log(dummy)
