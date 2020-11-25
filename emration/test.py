@@ -70,6 +70,12 @@ for i in range(len(df.index)):
 
 m,b = np.polyfit(x, y, 1)
 print(m)
+print(b)
+
+p, res, _, _, _ = np.polyfit(x, y, 1, full=True)
+print(p)
+print(res)
+
 
 print(len(x))
 
@@ -79,9 +85,13 @@ for i in range(len(x)):
 
 plt.xlabel("Accelerating Voltage")
 plt.ylabel("Radius Squared")
-error = [1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3]
+error = [1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,]
 
+plt.title("Radius Square as a function of V (A=1.11A$\pm$0.01A)")
+plt.xlabel("Accelerating Voltage (B)")
+plt.ylabel("Radius Squared (r^2)")
 plt.plot(x, slopes)
 plt.scatter(x, y)
-plt.errorbar(x,y,yerr=np.power(error,2),ls='none')
+plt.errorbar(x,y,yerr=error,ls='none')
+#plt.errorbar(x,y,yerr=np.power(error,2),ls='none')
 plt.show()

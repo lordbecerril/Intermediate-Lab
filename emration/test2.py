@@ -9,7 +9,7 @@ from scipy.optimize import curve_fit
 
 N = 130
 
-df = pd.read_csv("3.csv") # Read data
+df = pd.read_csv("1.csv") # Read data
 
 #Getting Current for the Helmholtz Coils V=IR => I=V/R
 cur = []
@@ -70,6 +70,12 @@ for i in range(len(df.index)):
 
 m,b = np.polyfit(x, y, 1)
 print(m)
+print(b)
+
+
+p, res, _, _, _ = np.polyfit(x, y, 1, full=True)
+print(p)
+print(res)
 
 slopes = []
 for i in range(len(x)):
@@ -78,12 +84,25 @@ for i in range(len(x)):
 plt.xlabel("Current")
 plt.ylabel("1/radius")
 
-error = [1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3,1E-3]
+error = [1E-1,1E-1,1E-1,1E-1,1E-1,1E-1,1E-1,1E-1,1E-1,1E-1]
 for i in range(len(error)):
     error[i] = 1/error[i]
 
-
+plt.title("Inverse Radius as a Function of I (V=149$\pm$1V)")
+plt.xlabel("Current (I)")
+plt.ylabel("Inverse Radius (1/r)")
 plt.plot(x, slopes)
 plt.scatter(x, y)
+plt.errorbar(x,y,yerr=error,ls='none')
+#plt.show()
+plt.clf()
+
+
+
+plt.title("R vs 1/B")
+plt.xlabel("1/B")
+plt.ylabel("R")
+plt.scatter( np.divide(1,df['Magnetic Field']),df['Average Radius of beam (cm)'])
 #plt.errorbar(x,y,yerr=error,ls='none')
 plt.show()
+plt.clf()

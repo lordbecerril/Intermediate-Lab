@@ -20,7 +20,6 @@ def constant_accelerating_voltage(df):
         y.append(a)
 
 
-
     m,b = np.polyfit(x, y, 1)
     print(m)
 
@@ -97,7 +96,7 @@ def analysis(csv_f_name, flag):
     for i in range(len(df.index)):
         a = (df.iloc[i,6] + df.iloc[i,7])/2
         ave.append(a**-2)
-    df['Average Radius of beam (cm)'] = ave
+    df['Average Radius of beam (m)'] = ave
 
     #Calculating Magnetic field
     mag_f = []
@@ -123,6 +122,9 @@ def analysis(csv_f_name, flag):
 
 def main():
     analysis("1.csv", True)
+    analysis("2.csv", True)
+    analysis("3.csv", True)
+    analysis("4.csv", False)
 
 if __name__ == "__main__":
     main()
