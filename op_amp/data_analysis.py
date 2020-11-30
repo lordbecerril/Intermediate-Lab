@@ -11,13 +11,15 @@ from scipy.optimize import curve_fit
 df = pd.read_csv("data.csv") # Read data
 
 print("frequency(Hz) is ")
-print(df['frequency(Hz)'].to_numpy())
+
+
+print(df['frequency(Hz)'].values.tolist())
 print("Vi(V) is ")
-print(df['Vi(V)'].to_numpy())
+print(df['Vi(V)'].values.tolist())
 print("Vo(V) is ")
-print(df['Vo(V)'].to_numpy())
+print(df['Vo(V)'].values.tolist())
 print("Phase(s) is ")
-print(df['Phase(s)'].to_numpy())
+print(df['Phase(s)'].values.tolist())
 
 
 
