@@ -71,6 +71,8 @@ print(df) #NOTICE NOW HOW THE DATAFRAME HAS A LOG GAIN COLUMN WHEN WE PRINT IT O
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # NOW LET US CALCULATE log(GAIN) = LOG(GAIN/FREQUENCY) <-------- SAW THIS ON THE BOARD SO I DONT KNOW IF IT IS RIGHT
 # AGAIN, WE CAN USE NUMPY TO DO THIS QUICKLY AS HELL. WE CAN ACCESS A WHOLE COLUMN BY CALLING df["Column Name"]
+df['Log Gain']= np.log(df['Gain'])
+
 df['Log Gain']= np.log(np.divide(df['Gain'], df['frequency(Hz)']))
 print(" ")
 
